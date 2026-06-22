@@ -1,6 +1,6 @@
-# BRIVAM Frontend
+# OJAM Frontend
 
-Next.js 16 + TypeScript + Tailwind CSS eCommerce storefront for BRIVAM protein supplements.
+Next.js 16 + TypeScript + Tailwind CSS eCommerce storefront for OJAM protein supplements.
 
 ## Tech Stack
 
@@ -14,15 +14,15 @@ Next.js 16 + TypeScript + Tailwind CSS eCommerce storefront for BRIVAM protein s
 ## Prerequisites
 
 - Node.js 18+
-- Backend API running on port 5000 (see [brivam-backend](https://github.com/yogeshparmar14/brivam-backend))
+- Backend API running on port 5000 (see [ojam-backend](https://github.com/yogeshparmar14/ojam-backend))
 
 ## Setup
 
 ### 1. Clone the repo
 
 ```bash
-git clone git@github.com:yogeshparmar14/brivam-frontend.git
-cd brivam-frontend
+git clone git@github.com:yogeshparmar14/ojam-frontend.git
+cd ojam-frontend
 ```
 
 ### 2. Install dependencies

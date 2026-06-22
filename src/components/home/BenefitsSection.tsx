@@ -8,10 +8,10 @@ export default function BenefitsSection() {
           <div>
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Every Scoop Counts.<br />
-              <span className="text-brand-700">Make It BRIVAM.</span>
+              <span className="text-brand-700">Make It OJAM.</span>
             </h2>
             <p className="text-gray-500 text-lg mb-6 leading-relaxed">
-              We started BRIVAM because we believed Indian athletes deserved better —
+              We started OJAM because we believed Indian athletes deserved better —
               better quality, better transparency, better value. No compromise.
             </p>
             <ul className="space-y-3 mb-8">

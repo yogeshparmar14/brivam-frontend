@@ -7,19 +7,19 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 const syne = Syne({ subsets: ['latin'], variable: '--font-syne' });
 
 export const metadata: Metadata = {
-  title: { default: 'BRIVAM | Premium Protein & Supplements', template: '%s | BRIVAM' },
-  description: 'Premium quality protein supplements and nutrition products. Fuel your fitness journey with BRIVAM.',
+  title: { default: 'OJAM | Premium Protein & Supplements', template: '%s | OJAM' },
+  description: 'Premium quality protein supplements and nutrition products. Fuel your fitness journey with OJAM.',
   keywords: ['protein', 'whey protein', 'supplements', 'nutrition', 'fitness', 'gym', 'India'],
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
 
   openGraph: {
     type: 'website',
     locale: 'en_IN',
-    siteName: 'BRIVAM',
+    siteName: 'OJAM',
   },
   twitter: {
     card: 'summary_large_image',
-    site: '@brivam_in',
+    site: '@ojam_in',
   },
 };
 

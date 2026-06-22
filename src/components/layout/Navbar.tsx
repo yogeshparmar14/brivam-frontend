@@ -39,14 +39,14 @@ export default function Navbar() {
     <header className={`sticky top-0 z-50 bg-white transition-shadow duration-200 ${isScrolled ? 'shadow-md' : 'border-b border-gray-100'}`}>
       {/* Top bar */}
       <div className="bg-brand-800 text-white text-xs py-2 text-center tracking-wider">
-        FREE SHIPPING ON ORDERS ABOVE ₹999 &nbsp;|&nbsp; USE CODE <strong>BRIVAM10</strong> FOR 10% OFF
+        FREE SHIPPING ON ORDERS ABOVE ₹999 &nbsp;|&nbsp; USE CODE <strong>OJAM10</strong> FOR 10% OFF
       </div>
 
       <div className="container-site">
         <nav className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-12 w-auto" priority />
+            <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-10 w-auto" priority />
           </Link>
 
           {/* Desktop nav */}

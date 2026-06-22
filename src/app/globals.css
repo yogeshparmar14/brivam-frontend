@@ -1,19 +1,33 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-brand-50:  #fafaf2;
-  --color-brand-100: #f2edd5;
-  --color-brand-200: #e0d4a8;
-  --color-brand-300: #c8b878;
-  --color-brand-400: #b8a060;
-  --color-brand-500: #a89352;
-  --color-brand-600: #7a6b32;
-  --color-brand-700: #57521a;
-  --color-brand-800: #403d13;
-  --color-brand-900: #2e2c0e;
-  --color-brand-950: #1c1a08;
+  /* Navy — brand identity, navigation, admin (logo "OJ" color) */
+  --color-brand-50:  #eef3f9;
+  --color-brand-100: #d4e2f1;
+  --color-brand-200: #a9c5e4;
+  --color-brand-300: #74a2d1;
+  --color-brand-400: #4680bd;
+  --color-brand-500: #2a62a3;
+  --color-brand-600: #1f4d8a;
+  --color-brand-700: #1c3d6b;
+  --color-brand-800: #152e52;
+  --color-brand-900: #0d1e38;
+  --color-brand-950: #070f1f;
 
-  --color-cream: #faf8f3;
+  /* Green — CTAs, highlights, accents (logo "AM" arrow color) */
+  --color-accent-50:  #edfaf4;
+  --color-accent-100: #cff3e4;
+  --color-accent-200: #9de7c9;
+  --color-accent-300: #64d4aa;
+  --color-accent-400: #3abb8a;
+  --color-accent-500: #3a9d72;
+  --color-accent-600: #2e7d5a;
+  --color-accent-700: #246046;
+  --color-accent-800: #1a4532;
+  --color-accent-900: #102c20;
+  --color-accent-950: #071710;
+
+  --color-cream: #f4f7fc;
   --color-dark: #1a1a1a;
 
   --font-sans: var(--font-inter);
@@ -76,7 +90,7 @@ body {
     justify-content: center;
     gap: 0.5rem;
     padding: 0.75rem 1.75rem;
-    background-color: var(--color-brand-700);
+    background-color: var(--color-accent-500);
     color: white;
     font-weight: 600;
     font-size: 0.9rem;
@@ -90,7 +104,7 @@ body {
   }
 
   .btn-primary:hover {
-    background-color: var(--color-brand-800);
+    background-color: var(--color-accent-600);
   }
 
   .btn-primary:active {

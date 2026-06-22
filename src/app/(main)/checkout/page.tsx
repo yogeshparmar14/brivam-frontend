@@ -80,7 +80,7 @@ export default function CheckoutPage() {
           key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
           amount: Math.round(total * 100),
           currency: 'INR',
-          name: 'BRIVAM',
+          name: 'OJAM',
           description: `Order ${data.order.orderNumber}`,
           order_id: data.razorpayOrderId,
           handler: async (response: { razorpay_order_id: string; razorpay_payment_id: string; razorpay_signature: string }) => {
@@ -93,7 +93,7 @@ export default function CheckoutPage() {
             router.push(`/order-success?orderId=${data.order._id}`);
           },
           prefill: { name: address.fullName, contact: address.phone, email: user.email },
-          theme: { color: '#57521a' },
+          theme: { color: '#1c3d6b' },
         };
         const Razorpay = (window as unknown as { Razorpay: new (opts: unknown) => { open: () => void } }).Razorpay;
         const rzp = new Razorpay(options);

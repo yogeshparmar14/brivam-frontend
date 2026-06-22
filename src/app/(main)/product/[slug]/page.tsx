@@ -83,13 +83,13 @@ export default async function ProductPage({ params }: PageProps) {
     name: product.name,
     description: product.shortDescription,
     image: product.images,
-    brand: { '@type': 'Brand', name: product.brand || 'BRIVAM' },
+    brand: { '@type': 'Brand', name: product.brand || 'OJAM' },
     offers: product.variants.map(v => ({
       '@type': 'Offer',
       price: v.price,
       priceCurrency: 'INR',
       availability: v.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
-      seller: { '@type': 'Organization', name: 'BRIVAM' },
+      seller: { '@type': 'Organization', name: 'OJAM' },
     })),
     ...(product.reviewCount > 0 && {
       aggregateRating: {

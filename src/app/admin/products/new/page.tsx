@@ -92,7 +92,7 @@ export default function NewProductPage() {
             onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
             required
             className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-600"
-            placeholder="e.g. BRIVAM Whey Protein Isolate"
+            placeholder="e.g. OJAM Whey Protein Isolate"
           />
         </div>
         <div>

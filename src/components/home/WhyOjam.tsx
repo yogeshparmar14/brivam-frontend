@@ -29,16 +29,16 @@ const reasons = [
   {
     Icon: Users,
     title: 'Community First',
-    desc: '50,000+ athletes trust BRIVAM. Join our fitness community today.',
+    desc: '50,000+ athletes trust OJAM. Join our fitness community today.',
   },
 ];
 
-export default function WhyBrivam() {
+export default function WhyOjam() {
   return (
     <section className="py-16 bg-brand-950 text-white">
       <div className="container-site">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-3">Why BRIVAM?</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-3">Why OJAM?</h2>
           <p className="text-gray-400 max-w-xl mx-auto">
             We believe in complete transparency. What you read on the label is exactly what you get.
           </p>
@@ -46,8 +46,8 @@ export default function WhyBrivam() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {reasons.map(({ Icon, title, desc }) => (
             <div key={title} className="flex gap-4 p-5 rounded-lg bg-brand-900/60 hover:bg-brand-900 transition-colors">
-              <div className="shrink-0 w-10 h-10 bg-brand-700 rounded-lg flex items-center justify-center">
-                <Icon size={20} className="text-brand-300" />
+              <div className="shrink-0 w-10 h-10 bg-accent-500/20 rounded-lg flex items-center justify-center">
+                <Icon size={20} className="text-accent-400" />
               </div>
               <div>
                 <h3 className="font-semibold text-white mb-1">{title}</h3>

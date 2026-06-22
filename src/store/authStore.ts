@@ -25,20 +25,20 @@ export const useAuthStore = create<AuthState>()(
       login: async (email, password) => {
         set({ isLoading: true });
         const { data } = await api.post('/auth/login', { email, password });
-        localStorage.setItem('brivam_token', data.token);
+        localStorage.setItem('ojam_token', data.token);
         set({ user: data.user, token: data.token, isLoading: false });
       },
 
       register: async (name, email, password, phone) => {
         set({ isLoading: true });
         const { data } = await api.post('/auth/register', { name, email, password, phone });
-        localStorage.setItem('brivam_token', data.token);
+        localStorage.setItem('ojam_token', data.token);
         set({ user: data.user, token: data.token, isLoading: false });
       },
 
       logout: async () => {
         await api.post('/auth/logout').catch(() => {});
-        localStorage.removeItem('brivam_token');
+        localStorage.removeItem('ojam_token');
         set({ user: null, token: null });
       },
 
@@ -50,7 +50,7 @@ export const useAuthStore = create<AuthState>()(
       },
     }),
     {
-      name: 'brivam-auth',
+      name: 'ojam-auth',
       partialize: (state) => ({ user: state.user, token: state.token }),
     }
   )

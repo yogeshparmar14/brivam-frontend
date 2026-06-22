@@ -29,7 +29,7 @@ export default function RegisterPage() {
     setLoading(true);
     try {
       await register(form.name, form.email, form.password, form.phone);
-      toast.success('Account created! Welcome to BRIVAM.');
+      toast.success('Account created! Welcome to OJAM.');
       router.push('/');
     } catch (err: unknown) {
       toast.error((err as { response?: { data?: { message?: string } } })?.response?.data?.message || 'Registration failed');
@@ -45,9 +45,9 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/"><Image src="/newLogo.png" alt="BRIVAM" width={160} height={64} className="h-16 w-auto mx-auto mb-4" /></Link>
+          <Link href="/"><Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-14 w-auto mx-auto mb-4" /></Link>
           <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
-          <p className="text-gray-500 text-sm mt-1">Join 50,000+ athletes on BRIVAM</p>
+          <p className="text-gray-500 text-sm mt-1">Join 50,000+ athletes on OJAM</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">

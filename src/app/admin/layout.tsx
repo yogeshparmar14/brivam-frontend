@@ -62,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className={`fixed md:static inset-y-0 left-0 z-40 w-60 bg-brand-950 text-white flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="p-5 border-b border-brand-900">
-          <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-8 w-auto brightness-200" />
+          <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-8 w-auto" />
           <p className="text-xs text-gray-400 mt-1">Admin Panel</p>
         </div>
 

@@ -84,7 +84,7 @@ export default function AdminCouponsPage() {
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Code *</label>
               <input value={form.code} onChange={e => setForm(p => ({ ...p, code: e.target.value.toUpperCase() }))}
-                placeholder="BRIVAM10" required
+                placeholder="OJAM10" required
                 className="w-full border border-gray-200 rounded px-3 py-2 text-sm focus:outline-none focus:border-brand-600 uppercase" />
             </div>
             <div>

@@ -45,10 +45,10 @@ function LoginForm() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/">
-            <Image src="/newLogo.png" alt="BRIVAM" width={160} height={64} className="h-16 w-auto mx-auto mb-4" />
+            <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-14 w-auto mx-auto mb-4" />
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
-          <p className="text-gray-500 text-sm mt-1">Sign in to your BRIVAM account</p>
+          <p className="text-gray-500 text-sm mt-1">Sign in to your OJAM account</p>
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">

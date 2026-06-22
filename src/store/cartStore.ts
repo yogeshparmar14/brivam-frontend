@@ -90,7 +90,7 @@ export const useCartStore = create<CartState>()(
       removeCoupon: () => set({ couponCode: undefined, discount: 0 }),
     }),
     {
-      name: 'brivam-cart',
+      name: 'ojam-cart',
       partialize: (state) => ({ items: state.items }),
     }
   )

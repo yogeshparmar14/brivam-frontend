@@ -35,7 +35,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   if (params.search) {
     return {
       title: `Search: "${params.search}"`,
-      description: `Search results for "${params.search}" on BRIVAM supplements store.`,
+      description: `Search results for "${params.search}" on OJAM supplements store.`,
       robots: { index: false, follow: true },
     };
   }
@@ -44,7 +44,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     const name = params.category.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
     return {
       title: `${name} Supplements`,
-      description: `Shop ${name} at BRIVAM — premium quality, lab-tested, India-made protein supplements.`,
+      description: `Shop ${name} at OJAM — premium quality, lab-tested, India-made protein supplements.`,
     };
   }
 

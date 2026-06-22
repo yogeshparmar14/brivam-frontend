@@ -20,7 +20,7 @@ export default function HeroSection() {
 
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
             Fuel Your
-            <span className="block text-brand-400">Greatness</span>
+            <span className="block text-accent-400">Greatness</span>
             With Clean Protein
           </h1>
 
@@ -30,7 +30,7 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-wrap gap-4 mb-12">
-            <Link href="/shop" className="btn-primary bg-brand-500 hover:bg-brand-400 text-white text-sm gap-2">
+            <Link href="/shop" className="btn-primary text-sm gap-2">
               Shop Now
               <ArrowRight size={16} />
             </Link>
@@ -47,7 +47,7 @@ export default function HeroSection() {
               { Icon: Award, label: 'FSSAI Approved' },
             ].map(({ Icon, label }) => (
               <div key={label} className="flex items-center gap-2">
-                <Icon size={16} className="text-brand-400" />
+                <Icon size={16} className="text-accent-400" />
                 <span>{label}</span>
               </div>
             ))}
@@ -66,7 +66,7 @@ export default function HeroSection() {
               { value: '4.8★', label: 'Average Rating' },
             ].map(({ value, label }) => (
               <div key={label} className="py-2">
-                <p className="text-brand-300 text-xl md:text-2xl font-bold">{value}</p>
+                <p className="text-accent-300 text-xl md:text-2xl font-bold">{value}</p>
                 <p className="text-gray-500 text-xs mt-0.5">{label}</p>
               </div>
             ))}

@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-12 w-auto brightness-200 mb-4" />
+            <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-10 w-auto mb-4" />
             <p className="text-sm text-gray-400 leading-relaxed mb-5">
               Premium protein supplements crafted for serious athletes. Fuel your performance, achieve your goals.
             </p>
@@ -71,7 +71,7 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin size={15} className="mt-0.5 shrink-0 text-brand-400" />
-                <span>Brivam Nutrition, Mumbai, Maharashtra 400001</span>
+                <span>Ojam Nutrition, Mumbai, Maharashtra 400001</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone size={15} className="shrink-0 text-brand-400" />
@@ -79,7 +79,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail size={15} className="shrink-0 text-brand-400" />
-                <a href="mailto:hello@brivam.in" className="hover:text-white transition-colors">hello@brivam.in</a>
+                <a href="mailto:hello@ojam.in" className="hover:text-white transition-colors">hello@ojam.in</a>
               </li>
             </ul>
 
@@ -102,7 +102,7 @@ export default function Footer() {
 
       <div className="border-t border-brand-900">
         <div className="container-site py-4 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-gray-500">
-          <p>© {new Date().getFullYear()} BRIVAM. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} OJAM. All rights reserved.</p>
           <div className="flex items-center gap-4">
             <span>Secure payments with</span>
             <div className="flex gap-2 items-center">
