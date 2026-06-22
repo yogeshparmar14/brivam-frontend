@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, Package, ShoppingBag, Users, Tag, LogOut, Menu, X } from 'lucide-react';
+import { LayoutDashboard, Package, ShoppingBag, Users, Tag, LogOut, Menu } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -17,16 +17,40 @@ const navItems = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const { user, logout } = useAuthStore();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
+
+  // Reactive hook — only for display and logout detection after auth passes
+  const { user, logout } = useAuthStore();
 
   useEffect(() => {
-    if (!user) router.push('/login');
-    else if (user.role !== 'admin') router.push('/');
-  }, [user, router]);
+    // Read directly from store state (not the React hook) — always current,
+    // no risk of stale React render state
+    const check = () => {
+      const u = useAuthStore.getState().user;
+      if (u?.role === 'admin') {
+        setAuthorized(true);
+      } else if (u) {
+        router.push('/');
+      } else {
+        router.push('/login?redirect=/admin');
+      }
+    };
 
-  if (!user || user.role !== 'admin') return null;
+    if (useAuthStore.persist.hasHydrated()) {
+      check();
+    } else {
+      return useAuthStore.persist.onFinishHydration(check);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Detect logout while inside admin
+  useEffect(() => {
+    if (authorized && !user) router.push('/login');
+  }, [authorized, user, router]);
+
+  if (!authorized || !user || user.role !== 'admin') return null;
 
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -38,7 +62,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Sidebar */}
       <aside className={`fixed md:static inset-y-0 left-0 z-40 w-60 bg-brand-950 text-white flex flex-col transition-transform duration-300 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full md:translate-x-0'}`}>
         <div className="p-5 border-b border-brand-900">
-          <Image src="/logo.png" alt="BRIVAM" width={100} height={34} className="h-8 w-auto brightness-200" />
+          <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-8 w-auto brightness-200" />
           <p className="text-xs text-gray-400 mt-1">Admin Panel</p>
         </div>
 
@@ -80,7 +104,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top bar */}
         <header className="bg-white border-b border-gray-100 px-6 py-4 flex items-center gap-4">
           <button className="md:hidden text-gray-600" onClick={() => setSidebarOpen(true)}>
             <Menu size={22} />

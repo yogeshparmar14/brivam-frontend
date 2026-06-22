@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { ShoppingCart, User, Menu, X, Search, ChevronDown } from 'lucide-react';
-import { usePathname } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 
@@ -18,10 +18,11 @@ const categories = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [isScrolled, setScrolled] = useState(false);
   const [showCategories, setShowCategories] = useState(false);
-  const { openCart, itemCount } = useCartStore();
+  const { openCart } = useCartStore();
   const { user, logout } = useAuthStore();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  useEffect(() => { setMenuOpen(false); }, [pathname]);
+  useEffect(() => { setMenuOpen(false); setShowCategories(false); }, [pathname]);
 
   const count = useCartStore((s) => s.items.reduce((n, i) => n + i.quantity, 0));
 
@@ -45,7 +46,7 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Image src="/logo.png" alt="BRIVAM" width={120} height={40} className="h-10 w-auto" priority />
+            <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-12 w-auto" priority />
           </Link>
 
           {/* Desktop nav */}
@@ -58,19 +59,30 @@ export default function Navbar() {
               onMouseEnter={() => setShowCategories(true)}
               onMouseLeave={() => setShowCategories(false)}
             >
-              <button className="flex items-center gap-1 text-gray-700 hover:text-brand-700 transition-colors">
+              <button className={`flex items-center gap-1 transition-colors hover:text-brand-700 ${pathname.startsWith('/shop') || pathname.startsWith('/product') ? 'text-brand-700' : 'text-gray-700'}`}>
                 Products <ChevronDown size={14} className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
               </button>
               {showCategories && (
-                <div className="absolute top-full left-0 mt-2 w-52 bg-white shadow-lg border border-gray-100 rounded py-2 z-50">
-                  <Link href="/shop" className="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-50 hover:text-brand-700 font-semibold border-b border-gray-100 mb-1">
-                    All Products
-                  </Link>
-                  {categories.map(c => (
-                    <Link key={c.href} href={c.href} className="block px-4 py-2 text-sm text-gray-600 hover:bg-brand-50 hover:text-brand-700">
-                      {c.label}
+                // pt-2 bridges the visual gap so onMouseLeave doesn't fire mid-hover
+                <div className="absolute top-full left-0 w-52 pt-2 z-50">
+                  <div className="bg-white shadow-lg border border-gray-100 rounded py-2">
+                    <Link href="/shop" className={`block px-4 py-2 text-sm hover:bg-brand-50 hover:text-brand-700 font-semibold border-b border-gray-100 mb-1 ${pathname === '/shop' && !searchParams.get('category') && !searchParams.get('featured') ? 'text-brand-700 bg-brand-50' : 'text-gray-700'}`}>
+                      All Products
                     </Link>
-                  ))}
+                    {categories.map(c => {
+                      const categorySlug = new URL(c.href, 'http://x').searchParams.get('category');
+                      const isActive = pathname === '/shop' && searchParams.get('category') === categorySlug;
+                      return (
+                        <Link
+                          key={c.href}
+                          href={c.href}
+                          className={`block px-4 py-2 text-sm hover:bg-brand-50 hover:text-brand-700 ${isActive ? 'text-brand-700 bg-brand-50' : 'text-gray-600'}`}
+                        >
+                          {c.label}
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
               )}
             </div>
@@ -104,16 +116,18 @@ export default function Navbar() {
                   <User size={22} />
                   <span className="hidden md:inline text-sm font-medium">{user.name.split(' ')[0]}</span>
                 </button>
-                <div className="absolute right-0 top-full mt-2 w-44 bg-white shadow-lg border border-gray-100 rounded py-2 z-50 hidden group-hover:block">
-                  <Link href="/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-50">My Account</Link>
-                  <Link href="/account/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-50">My Orders</Link>
-                  {user.role === 'admin' && (
-                    <Link href="/admin" className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50 font-medium">Admin Panel</Link>
-                  )}
-                  <hr className="my-1" />
-                  <button onClick={() => logout()} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
-                    Logout
-                  </button>
+                <div className="absolute right-0 top-full pt-2 w-44 z-50 hidden group-hover:block">
+                  <div className="bg-white shadow-lg border border-gray-100 rounded py-2">
+                    <Link href="/account" className="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-50">My Account</Link>
+                    <Link href="/account/orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-brand-50">My Orders</Link>
+                    {user.role === 'admin' && (
+                      <Link href="/admin" className="block px-4 py-2 text-sm text-brand-700 hover:bg-brand-50 font-medium">Admin Panel</Link>
+                    )}
+                    <hr className="my-1" />
+                    <button onClick={() => logout()} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50">
+                      Logout
+                    </button>
+                  </div>
                 </div>
               </div>
             ) : (

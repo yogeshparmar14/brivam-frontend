@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Instagram, Youtube, Facebook, Twitter, Mail, Phone, MapPin } from 'lucide-react';
+import { Camera, Play, Share2, MessageCircle, Mail, Phone, MapPin } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -9,16 +9,16 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
           {/* Brand */}
           <div>
-            <Image src="/logo.png" alt="BRIVAM" width={120} height={40} className="h-10 w-auto brightness-200 mb-4" />
+            <Image src="/newLogo.png" alt="BRIVAM" width={120} height={48} className="h-12 w-auto brightness-200 mb-4" />
             <p className="text-sm text-gray-400 leading-relaxed mb-5">
               Premium protein supplements crafted for serious athletes. Fuel your performance, achieve your goals.
             </p>
             <div className="flex gap-3">
               {[
-                { Icon: Instagram, href: '#' },
-                { Icon: Youtube, href: '#' },
-                { Icon: Facebook, href: '#' },
-                { Icon: Twitter, href: '#' },
+                { Icon: Camera, href: '#' },
+                { Icon: Play, href: '#' },
+                { Icon: Share2, href: '#' },
+                { Icon: MessageCircle, href: '#' },
               ].map(({ Icon, href }, i) => (
                 <a key={i} href={href} className="w-8 h-8 bg-brand-800 flex items-center justify-center rounded text-gray-400 hover:text-white hover:bg-brand-700 transition-colors">
                   <Icon size={15} />

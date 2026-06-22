@@ -1,61 +1,28 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import Image from 'next/image';
-import { ShoppingCart, Star, Shield, Truck, RotateCcw, ChevronDown } from 'lucide-react';
+import { ShoppingCart, Star, Shield, Truck, RotateCcw } from 'lucide-react';
 import { Product, Review } from '@/types';
 import { formatPrice, discount } from '@/lib/utils';
 import { useCartStore } from '@/store/cartStore';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
 
-interface PageProps {
-  params: Promise<{ slug: string }>;
-}
-
-export default function ProductPage({ params }: PageProps) {
-  const { slug } = use(params);
+export default function ProductClient({ product }: { product: Product }) {
   const { addItem, openCart } = useCartStore();
   const [selectedVariantIdx, setVariantIdx] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
   const [activeTab, setActiveTab] = useState<'description' | 'nutrition' | 'reviews'>('description');
 
-  const { data: product, isLoading } = useQuery<Product>({
-    queryKey: ['product', slug],
-    queryFn: async () => {
-      const { data } = await api.get(`/products/${slug}`);
-      return data.product;
-    },
-  });
-
   const { data: reviewsData } = useQuery<{ reviews: Review[]; total: number }>({
-    queryKey: ['reviews', product?._id],
+    queryKey: ['reviews', product._id],
     queryFn: async () => {
-      const { data } = await api.get(`/products/${product!._id}/reviews`);
+      const { data } = await api.get(`/products/${product._id}/reviews`);
       return data;
     },
-    enabled: !!product,
   });
-
-  if (isLoading) return (
-    <div className="container-site py-10">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-        <div className="aspect-square bg-gray-100 rounded-xl animate-pulse" />
-        <div className="space-y-4">
-          {[200, 80, 120, 180, 80].map((w, i) => (
-            <div key={i} className={`h-6 bg-gray-100 rounded animate-pulse`} style={{ width: `${w}px` }} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-
-  if (!product) return (
-    <div className="container-site py-24 text-center text-gray-400">
-      <p className="text-xl font-medium">Product not found</p>
-    </div>
-  );
 
   const variant = product.variants[selectedVariantIdx];
   const allImages = [
@@ -119,7 +86,7 @@ export default function ProductPage({ params }: PageProps) {
                   onClick={() => setActiveImg(i)}
                   className={`relative w-16 h-16 shrink-0 rounded-lg overflow-hidden border-2 transition-colors ${i === activeImg ? 'border-brand-600' : 'border-gray-100'}`}
                 >
-                  <Image src={img} alt={`View ${i + 1}`} fill className="object-cover" />
+                  <Image src={img} alt={`${product.name} – image ${i + 1}`} fill className="object-cover" />
                 </button>
               ))}
             </div>
@@ -133,7 +100,6 @@ export default function ProductPage({ params }: PageProps) {
           </p>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-3">{product.name}</h1>
 
-          {/* Rating */}
           {product.reviewCount > 0 && (
             <div className="flex items-center gap-2 mb-4">
               <div className="flex">
@@ -147,7 +113,6 @@ export default function ProductPage({ params }: PageProps) {
 
           <p className="text-gray-600 mb-6 leading-relaxed">{product.shortDescription}</p>
 
-          {/* Price */}
           {variant && (
             <div className="flex items-baseline gap-3 mb-6">
               <span className="text-3xl font-bold text-gray-900">{formatPrice(variant.price)}</span>
@@ -162,14 +127,13 @@ export default function ProductPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Flavor selector */}
           {flavors.length > 0 && (
             <div className="mb-5">
               <p className="text-sm font-semibold text-gray-700 mb-2">
                 Flavor: <span className="font-normal text-gray-500">{variant?.flavor || 'Select'}</span>
               </p>
               <div className="flex flex-wrap gap-2">
-                {product.variants.filter(v => !v.weight || v.weight === variant?.weight).map((v, i) => (
+                {product.variants.filter(v => !v.weight || v.weight === variant?.weight).map((v) => (
                   v.flavor && (
                     <button
                       key={v.sku}
@@ -189,7 +153,6 @@ export default function ProductPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Weight selector */}
           {weights.length > 0 && (
             <div className="mb-5">
               <p className="text-sm font-semibold text-gray-700 mb-2">
@@ -215,7 +178,6 @@ export default function ProductPage({ params }: PageProps) {
             </div>
           )}
 
-          {/* Quantity & Add to cart */}
           <div className="flex gap-3 mb-6">
             <div className="flex items-center border border-gray-200 rounded">
               <button onClick={() => setQuantity(q => Math.max(1, q - 1))} className="px-3 py-2.5 text-gray-600 hover:bg-gray-50 text-lg">−</button>
@@ -232,7 +194,6 @@ export default function ProductPage({ params }: PageProps) {
             </button>
           </div>
 
-          {/* Benefits quick list */}
           {product.benefits.length > 0 && (
             <ul className="space-y-1.5 mb-6">
               {product.benefits.slice(0, 4).map(b => (
@@ -243,7 +204,6 @@ export default function ProductPage({ params }: PageProps) {
             </ul>
           )}
 
-          {/* Trust */}
           <div className="flex flex-wrap gap-4 text-xs text-gray-500 pt-4 border-t border-gray-100">
             {[
               { Icon: Shield, label: 'Lab Tested' },

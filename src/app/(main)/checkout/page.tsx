@@ -93,7 +93,7 @@ export default function CheckoutPage() {
             router.push(`/order-success?orderId=${data.order._id}`);
           },
           prefill: { name: address.fullName, contact: address.phone, email: user.email },
-          theme: { color: '#4a5c1e' },
+          theme: { color: '#57521a' },
         };
         const Razorpay = (window as unknown as { Razorpay: new (opts: unknown) => { open: () => void } }).Razorpay;
         const rzp = new Razorpay(options);

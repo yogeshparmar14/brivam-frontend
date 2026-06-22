@@ -63,6 +63,7 @@ export interface Product {
   howToUse?: string;
   benefits: string[];
   isFeatured: boolean;
+  isActive: boolean;
   averageRating: number;
   reviewCount: number;
   createdAt: string;

@@ -18,7 +18,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         toastOptions={{
           duration: 3000,
           style: { fontFamily: 'var(--font-inter)', fontSize: '0.875rem' },
-          success: { iconTheme: { primary: '#4a5c1e', secondary: '#fff' } },
+          success: { iconTheme: { primary: '#57521a', secondary: '#fff' } },
         }}
       />
     </QueryClientProvider>

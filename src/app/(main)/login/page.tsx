@@ -1,19 +1,28 @@
 'use client';
-import { useState } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
 import { useAuthStore } from '@/store/authStore';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { login } = useAuthStore();
+  const { login, user } = useAuthStore();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (user) router.replace(searchParams.get('redirect') || '/');
+  }, [mounted, user, router, searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +30,8 @@ export default function LoginPage() {
     try {
       await login(email, password);
       toast.success('Welcome back!');
-      router.push('/');
+      const redirect = searchParams.get('redirect');
+      router.push(redirect || '/');
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Login failed';
       toast.error((err as { response?: { data?: { message?: string } } })?.response?.data?.message || msg);
@@ -35,7 +45,7 @@ export default function LoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/">
-            <Image src="/logo.png" alt="BRIVAM" width={140} height={48} className="h-12 w-auto mx-auto mb-4" />
+            <Image src="/newLogo.png" alt="BRIVAM" width={160} height={64} className="h-16 w-auto mx-auto mb-4" />
           </Link>
           <h1 className="text-2xl font-bold text-gray-900">Welcome back</h1>
           <p className="text-gray-500 text-sm mt-1">Sign in to your BRIVAM account</p>
@@ -94,4 +104,8 @@ export default function LoginPage() {
       </div>
     </div>
   );
+}
+
+export default function LoginPage() {
+  return <Suspense fallback={null}><LoginForm /></Suspense>;
 }

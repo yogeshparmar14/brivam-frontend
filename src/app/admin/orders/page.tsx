@@ -1,5 +1,5 @@
 'use client';
-import { use, useState } from 'react';
+import { use, useState, Fragment } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Order } from '@/types';
 import { formatPrice, orderStatusColor } from '@/lib/utils';
@@ -72,8 +72,8 @@ export default function AdminOrdersPage({ searchParams }: PageProps) {
                 <tr key={i}><td colSpan={6} className="py-3 px-4"><div className="h-5 bg-gray-100 rounded animate-pulse" /></td></tr>
               ))
             ) : data?.orders.map(order => (
-              <>
-                <tr key={order._id} className="border-b border-gray-50 hover:bg-gray-50/50">
+              <Fragment key={order._id}>
+                <tr className="border-b border-gray-50 hover:bg-gray-50/50">
                   <td className="py-3 px-4 font-medium text-gray-800">#{order.orderNumber}</td>
                   <td className="py-3 px-4 text-gray-500 hidden md:table-cell">
                     {(order as Order & { user?: { name: string; email: string } }).user
@@ -105,7 +105,7 @@ export default function AdminOrdersPage({ searchParams }: PageProps) {
                   </td>
                 </tr>
                 {expandedId === order._id && (
-                  <tr key={`${order._id}-detail`} className="bg-gray-50">
+                  <tr className="bg-gray-50">
                     <td colSpan={6} className="py-4 px-6">
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                         <div>
@@ -128,7 +128,7 @@ export default function AdminOrdersPage({ searchParams }: PageProps) {
                     </td>
                   </tr>
                 )}
-              </>
+              </Fragment>
             ))}
           </tbody>
         </table>

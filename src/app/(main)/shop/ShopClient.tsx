@@ -1,14 +1,10 @@
 'use client';
-import { use, useState } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import ProductCard from '@/components/product/ProductCard';
 import api from '@/lib/api';
 import { Product, PaginationMeta } from '@/types';
 import { SlidersHorizontal, X } from 'lucide-react';
-
-interface PageProps {
-  searchParams: Promise<{ [key: string]: string | undefined }>;
-}
 
 const SORT_OPTIONS = [
   { label: 'Newest', value: '-createdAt' },
@@ -18,21 +14,37 @@ const SORT_OPTIONS = [
   { label: 'Most Popular', value: '-reviewCount' },
 ];
 
-export default function ShopPage({ searchParams }: PageProps) {
-  const params = use(searchParams);
+interface ShopClientProps {
+  initialProducts: Product[];
+  initialPagination: PaginationMeta;
+  category?: string;
+  search?: string;
+  featured?: string;
+}
+
+export default function ShopClient({
+  initialProducts,
+  initialPagination,
+  category,
+  search,
+  featured,
+}: ShopClientProps) {
   const [sort, setSort] = useState('-createdAt');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
   const [page, setPage] = useState(1);
   const [showFilters, setShowFilters] = useState(false);
 
+  // True only when query params match what the server already fetched
+  const isInitialQuery = sort === '-createdAt' && !minPrice && !maxPrice && page === 1;
+
   const { data, isLoading } = useQuery<{ products: Product[]; pagination: PaginationMeta }>({
-    queryKey: ['products', params.category, params.search, params.featured, sort, minPrice, maxPrice, page],
+    queryKey: ['products', category, search, featured, sort, minPrice, maxPrice, page],
     queryFn: async () => {
       const query = new URLSearchParams({
-        ...(params.category && { category: params.category }),
-        ...(params.search && { search: params.search }),
-        ...(params.featured && { featured: 'true' }),
+        ...(category && { category }),
+        ...(search && { search }),
+        ...(featured && { featured: 'true' }),
         ...(minPrice && { minPrice }),
         ...(maxPrice && { maxPrice }),
         sort,
@@ -42,19 +54,22 @@ export default function ShopPage({ searchParams }: PageProps) {
       const { data } = await api.get(`/products?${query}`);
       return data;
     },
+    initialData: isInitialQuery
+      ? { products: initialProducts, pagination: initialPagination }
+      : undefined,
+    staleTime: 60_000,
   });
 
-  const title = params.search
-    ? `Search: "${params.search}"`
-    : params.category
-    ? params.category.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
-    : params.featured
+  const title = search
+    ? `Search: "${search}"`
+    : category
+    ? category.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase())
+    : featured
     ? 'Best Sellers'
     : 'All Products';
 
   return (
     <div className="container-site py-10">
-      {/* Header */}
       <div className="flex items-center justify-between mb-8 gap-4 flex-wrap">
         <div>
           <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h1>
@@ -78,7 +93,6 @@ export default function ShopPage({ searchParams }: PageProps) {
         </div>
       </div>
 
-      {/* Filter bar */}
       {showFilters && (
         <div className="flex flex-wrap gap-4 items-center p-4 bg-gray-50 rounded-lg mb-6 border border-gray-100">
           <div className="flex items-center gap-2">
@@ -110,7 +124,6 @@ export default function ShopPage({ searchParams }: PageProps) {
         </div>
       )}
 
-      {/* Grid */}
       {isLoading ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
           {Array.from({ length: 12 }).map((_, i) => (

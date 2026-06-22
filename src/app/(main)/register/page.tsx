@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Eye, EyeOff } from 'lucide-react';
@@ -11,8 +11,16 @@ export default function RegisterPage() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', password: '', confirm: '' });
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { register } = useAuthStore();
+  const { register, user } = useAuthStore();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+    if (user) router.replace('/');
+  }, [mounted, user, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,7 +45,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/"><Image src="/logo.png" alt="BRIVAM" width={140} height={48} className="h-12 w-auto mx-auto mb-4" /></Link>
+          <Link href="/"><Image src="/newLogo.png" alt="BRIVAM" width={160} height={64} className="h-16 w-auto mx-auto mb-4" /></Link>
           <h1 className="text-2xl font-bold text-gray-900">Create your account</h1>
           <p className="text-gray-500 text-sm mt-1">Join 50,000+ athletes on BRIVAM</p>
         </div>
