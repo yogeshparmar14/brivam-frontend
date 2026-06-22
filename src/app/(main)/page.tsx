@@ -119,6 +119,53 @@ const faqJsonLd = {
   ],
 };
 
+const siteNavigationJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'OJAM Site Navigation',
+  itemListElement: [
+    {
+      '@type': 'SiteLinksSearchBox',
+      target: `${siteUrl}/shop?search={search_term_string}`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 1,
+      name: 'Whey Protein',
+      description: 'Premium whey protein concentrate and isolate for muscle building and recovery.',
+      url: `${siteUrl}/shop?category=whey-protein`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 2,
+      name: 'Mass Gainers',
+      description: 'High-calorie mass gainers to support weight gain and muscle growth.',
+      url: `${siteUrl}/shop?category=mass-gainer`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 3,
+      name: 'Creatine',
+      description: 'Pure creatine monohydrate for strength, power, and performance.',
+      url: `${siteUrl}/shop?category=creatine`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 4,
+      name: 'Plant Protein',
+      description: '100% plant-based protein — vegan-friendly and dairy-free.',
+      url: `${siteUrl}/shop?category=plant-protein`,
+    },
+    {
+      '@type': 'ListItem',
+      position: 5,
+      name: 'Best Sellers',
+      description: 'Our most popular supplements, top-rated by athletes across India.',
+      url: `${siteUrl}/shop?featured=true`,
+    },
+  ],
+};
+
 const websiteJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'WebSite',
@@ -145,6 +192,10 @@ export default function HomePage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationJsonLd) }}
       />
       <HeroSection />
       <CategorySection />
