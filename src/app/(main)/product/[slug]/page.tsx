@@ -40,13 +40,16 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!product) return { title: 'Product Not Found' };
 
   const image = product.images[0];
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in';
 
   return {
     title: product.name,
     description: product.shortDescription,
+    alternates: { canonical: `${base}/product/${slug}` },
     openGraph: {
       title: product.name,
       description: product.shortDescription,
+      url: `${base}/product/${slug}`,
       images: image ? [{ url: image, width: 800, height: 800, alt: product.name }] : [],
     },
     twitter: {
@@ -84,6 +87,7 @@ export default async function ProductPage({ params }: PageProps) {
     description: product.shortDescription,
     image: product.images,
     brand: { '@type': 'Brand', name: product.brand || 'OJAM' },
+    ...(product.variants[0]?.sku && { sku: product.variants[0].sku }),
     offers: product.variants.map(v => ({
       '@type': 'Offer',
       price: v.price,

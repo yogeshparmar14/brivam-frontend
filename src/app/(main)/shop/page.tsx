@@ -29,6 +29,8 @@ async function fetchInitialProducts(params: Record<string, string | undefined>) 
   }
 }
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in';
+
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
 
@@ -45,6 +47,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     return {
       title: `${name} Supplements`,
       description: `Shop ${name} at OJAM — premium quality, lab-tested, India-made protein supplements.`,
+      alternates: { canonical: `${siteUrl}/shop?category=${params.category}` },
     };
   }
 
@@ -52,10 +55,21 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
     return {
       title: 'Best Sellers',
       description: 'Our most popular protein supplements, top-rated by 50,000+ athletes across India.',
+      alternates: { canonical: `${siteUrl}/shop?featured=true` },
     };
   }
 
-  return {};
+  return {
+    title: 'Shop All Supplements',
+    description: "Browse OJAM's full range — whey protein, plant protein, creatine, mass gainers & more. Lab-tested, India-made supplements.",
+    alternates: { canonical: `${siteUrl}/shop` },
+    openGraph: {
+      title: 'Shop All Supplements | OJAM',
+      description: "Browse OJAM's full range — whey protein, plant protein, creatine, mass gainers & more.",
+      url: `${siteUrl}/shop`,
+      images: [{ url: '/ojam.png', width: 1024, height: 1024, alt: 'OJAM Supplements' }],
+    },
+  };
 }
 
 export default async function ShopPage({ searchParams }: PageProps) {

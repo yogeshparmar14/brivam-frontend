@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${syne.variable}`}>
+    <html lang="en-IN" className={`${inter.variable} ${syne.variable}`}>
       <body className="min-h-screen flex flex-col bg-white antialiased">
         <Providers>
           {children}
