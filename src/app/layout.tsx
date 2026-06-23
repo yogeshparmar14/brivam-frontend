@@ -10,12 +10,13 @@ export const metadata: Metadata = {
   title: { default: 'OJAM | Premium Protein & Supplements', template: '%s | OJAM' },
   description: 'Premium quality protein supplements and nutrition products. Fuel your fitness journey with OJAM.',
   keywords: ['protein', 'whey protein', 'supplements', 'nutrition', 'fitness', 'gym', 'India'],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in'),
 
   openGraph: {
     type: 'website',
     locale: 'en_IN',
     siteName: 'OJAM',
+    images: [{ url: '/ojam.png', width: 1024, height: 1024, alt: 'OJAM – Premium Protein Supplements' }],
   },
   twitter: {
     card: 'summary_large_image',

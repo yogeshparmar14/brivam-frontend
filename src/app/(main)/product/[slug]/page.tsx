@@ -1,18 +1,18 @@
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import ProductClient from './ProductClient';
-import type { Product } from '@/types';
+import type { Product, Review } from '@/types';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
+const apiBase = process.env.NEXT_PUBLIC_API_URL || 'https://api.ojam.in/api';
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in';
+
 async function fetchProduct(slug: string): Promise<Product | null> {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products/${slug}`,
-      { next: { revalidate: 300 } },
-    );
+    const res = await fetch(`${apiBase}/products/${slug}`, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     const data = await res.json();
     return data.product ?? null;
@@ -21,11 +21,20 @@ async function fetchProduct(slug: string): Promise<Product | null> {
   }
 }
 
+async function fetchReviews(productId: string): Promise<Review[]> {
+  try {
+    const res = await fetch(`${apiBase}/products/${productId}/reviews?limit=5`, { next: { revalidate: 300 } });
+    if (!res.ok) return [];
+    const data = await res.json();
+    return data.reviews ?? [];
+  } catch {
+    return [];
+  }
+}
+
 export async function generateStaticParams() {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?limit=500`,
-    );
+    const res = await fetch(`${apiBase}/products?limit=500`);
     if (!res.ok) return [];
     const data = await res.json();
     return (data.products ?? []).map((p: { slug: string }) => ({ slug: p.slug }));
@@ -40,16 +49,15 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   if (!product) return { title: 'Product Not Found' };
 
   const image = product.images[0];
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in';
 
   return {
     title: product.name,
     description: product.shortDescription,
-    alternates: { canonical: `${base}/product/${slug}` },
+    alternates: { canonical: `${siteUrl}/product/${slug}` },
     openGraph: {
       title: product.name,
       description: product.shortDescription,
-      url: `${base}/product/${slug}`,
+      url: `${siteUrl}/product/${slug}`,
       images: image ? [{ url: image, width: 800, height: 800, alt: product.name }] : [],
     },
     twitter: {
@@ -66,17 +74,18 @@ export default async function ProductPage({ params }: PageProps) {
   const product = await fetchProduct(slug);
   if (!product) notFound();
 
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   const categoryName = typeof product.category === 'object' ? product.category.name : 'Products';
   const categorySlug = typeof product.category === 'object' ? product.category.slug : '';
+
+  const reviews = product.reviewCount > 0 ? await fetchReviews(product._id) : [];
 
   const breadcrumbJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: base },
-      { '@type': 'ListItem', position: 2, name: categoryName, item: `${base}/shop?category=${categorySlug}` },
-      { '@type': 'ListItem', position: 3, name: product.name, item: `${base}/product/${product.slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: siteUrl },
+      { '@type': 'ListItem', position: 2, name: categoryName, item: `${siteUrl}/shop?category=${categorySlug}` },
+      { '@type': 'ListItem', position: 3, name: product.name, item: `${siteUrl}/product/${product.slug}` },
     ],
   };
 
@@ -103,6 +112,21 @@ export default async function ProductPage({ params }: PageProps) {
         bestRating: 5,
         worstRating: 1,
       },
+    }),
+    ...(reviews.length > 0 && {
+      review: reviews.map(r => ({
+        '@type': 'Review',
+        name: r.title,
+        reviewBody: r.comment,
+        datePublished: r.createdAt,
+        author: { '@type': 'Person', name: r.user.name },
+        reviewRating: {
+          '@type': 'Rating',
+          ratingValue: r.rating,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      })),
     }),
   };
 

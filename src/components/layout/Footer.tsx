@@ -71,11 +71,11 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin size={15} className="mt-0.5 shrink-0 text-brand-400" />
-                <span>Ojam Nutrition, Mumbai, Maharashtra 400001</span>
+                <span>Ojam Nutrition, Bhiwani, Haryana 127027</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone size={15} className="shrink-0 text-brand-400" />
-                <a href="tel:+918888888888" className="hover:text-white transition-colors">+91 88888 88888</a>
+                <a href="tel:+917988707297" className="hover:text-white transition-colors">+91 79887 07297</a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail size={15} className="shrink-0 text-brand-400" />

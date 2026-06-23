@@ -33,6 +33,8 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.ojam.in';
 
 export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
   const params = await searchParams;
+  const page = parseInt(params.page || '1', 10);
+  const isPaged = page > 1;
 
   if (params.search) {
     return {
@@ -44,31 +46,37 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
 
   if (params.category) {
     const name = params.category.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase());
+    const canonical = `${siteUrl}/shop?category=${params.category}`;
     return {
-      title: `${name} Supplements`,
+      title: isPaged ? `${name} Supplements – Page ${page}` : `${name} Supplements`,
       description: `Shop ${name} at OJAM — premium quality, lab-tested, India-made protein supplements.`,
-      alternates: { canonical: `${siteUrl}/shop?category=${params.category}` },
+      alternates: { canonical },
+      ...(isPaged && { robots: { index: false, follow: true } }),
     };
   }
 
   if (params.featured) {
     return {
-      title: 'Best Sellers',
+      title: isPaged ? `Best Sellers – Page ${page}` : 'Best Sellers',
       description: 'Our most popular protein supplements, top-rated by 50,000+ athletes across India.',
       alternates: { canonical: `${siteUrl}/shop?featured=true` },
+      ...(isPaged && { robots: { index: false, follow: true } }),
     };
   }
 
   return {
-    title: 'Shop All Supplements',
+    title: isPaged ? `Shop All Supplements – Page ${page}` : 'Shop All Supplements',
     description: "Browse OJAM's full range — whey protein, plant protein, creatine, mass gainers & more. Lab-tested, India-made supplements.",
     alternates: { canonical: `${siteUrl}/shop` },
-    openGraph: {
-      title: 'Shop All Supplements | OJAM',
-      description: "Browse OJAM's full range — whey protein, plant protein, creatine, mass gainers & more.",
-      url: `${siteUrl}/shop`,
-      images: [{ url: '/ojam.png', width: 1024, height: 1024, alt: 'OJAM Supplements' }],
-    },
+    ...(isPaged && { robots: { index: false, follow: true } }),
+    ...(!isPaged && {
+      openGraph: {
+        title: 'Shop All Supplements | OJAM',
+        description: "Browse OJAM's full range — whey protein, plant protein, creatine, mass gainers & more.",
+        url: `${siteUrl}/shop`,
+        images: [{ url: '/ojam.png', width: 1024, height: 1024, alt: 'OJAM Supplements' }],
+      },
+    }),
   };
 }
 

@@ -46,7 +46,7 @@ export default function Navbar() {
         <nav className="flex items-center justify-between h-16 gap-4">
           {/* Logo */}
           <Link href="/" className="shrink-0">
-            <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-10 w-auto" priority />
+            <Image src="/ojam.png" alt="OJAM" width={688} height={186} className="h-8 w-auto" priority />
           </Link>
 
           {/* Desktop nav */}
