@@ -21,7 +21,7 @@ export default function CategorySection() {
           {cats.map((cat) => (
             <Link
               key={cat.slug}
-              href={`/shop?category=${cat.slug}`}
+              href={`/category/${cat.slug}`}
               className="group bg-white rounded-xl p-5 text-center hover:shadow-md hover:-translate-y-1 transition-all duration-300 border border-gray-100"
             >
               <div className="text-3xl mb-3">{cat.emoji}</div>

@@ -8,12 +8,12 @@ import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
 
 const categories = [
-  { label: 'Whey Protein', href: '/shop?category=whey-protein' },
-  { label: 'Plant Protein', href: '/shop?category=plant-protein' },
-  { label: 'Mass Gainer', href: '/shop?category=mass-gainer' },
-  { label: 'Creatine', href: '/shop?category=creatine' },
-  { label: 'Pre-Workout', href: '/shop?category=pre-workout' },
-  { label: 'Vitamins', href: '/shop?category=vitamins' },
+  { label: 'Whey Protein', href: '/category/whey-protein' },
+  { label: 'Plant Protein', href: '/category/plant-protein' },
+  { label: 'Mass Gainer', href: '/category/mass-gainer' },
+  { label: 'Creatine', href: '/category/creatine' },
+  { label: 'Pre-Workout', href: '/category/pre-workout' },
+  { label: 'Vitamins', href: '/category/vitamins' },
 ];
 
 export default function Navbar() {
@@ -59,19 +59,18 @@ export default function Navbar() {
               onMouseEnter={() => setShowCategories(true)}
               onMouseLeave={() => setShowCategories(false)}
             >
-              <button className={`flex items-center gap-1 transition-colors hover:text-brand-700 ${pathname.startsWith('/shop') || pathname.startsWith('/product') ? 'text-brand-700' : 'text-gray-700'}`}>
+              <button className={`flex items-center gap-1 transition-colors hover:text-brand-700 ${pathname.startsWith('/shop') || pathname.startsWith('/category') || pathname.startsWith('/product') ? 'text-brand-700' : 'text-gray-700'}`}>
                 Products <ChevronDown size={14} className={`transition-transform ${showCategories ? 'rotate-180' : ''}`} />
               </button>
               {showCategories && (
                 // pt-2 bridges the visual gap so onMouseLeave doesn't fire mid-hover
                 <div className="absolute top-full left-0 w-52 pt-2 z-50">
                   <div className="bg-white shadow-lg border border-gray-100 rounded py-2">
-                    <Link href="/shop" className={`block px-4 py-2 text-sm hover:bg-brand-50 hover:text-brand-700 font-semibold border-b border-gray-100 mb-1 ${pathname === '/shop' && !searchParams.get('category') && !searchParams.get('featured') ? 'text-brand-700 bg-brand-50' : 'text-gray-700'}`}>
+                    <Link href="/shop" className={`block px-4 py-2 text-sm hover:bg-brand-50 hover:text-brand-700 font-semibold border-b border-gray-100 mb-1 ${pathname === '/shop' ? 'text-brand-700 bg-brand-50' : 'text-gray-700'}`}>
                       All Products
                     </Link>
                     {categories.map(c => {
-                      const categorySlug = new URL(c.href, 'http://x').searchParams.get('category');
-                      const isActive = pathname === '/shop' && searchParams.get('category') === categorySlug;
+                      const isActive = pathname === c.href;
                       return (
                         <Link
                           key={c.href}
