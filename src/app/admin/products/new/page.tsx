@@ -6,6 +6,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { Category } from '@/types';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 interface Variant {
   flavor: string;
@@ -34,6 +35,7 @@ export default function NewProductPage() {
     { flavor: '', weight: '', sku: '', price: '', mrp: '', stock: '' },
   ]);
   const [nutritionRows, setNutritionRows] = useState([{ label: '', perServing: '', per100g: '' }]);
+  const [images, setImages] = useState<string[]>([]);
 
   const { data: categoriesData } = useQuery<{ categories: Category[] }>({
     queryKey: ['categories'],
@@ -70,7 +72,7 @@ export default function NewProductPage() {
           images: [],
         })),
         nutritionFacts: nutritionRows.filter(r => r.label),
-        images: [],
+        images,
       });
       toast.success('Product created!');
       router.push('/admin/products');
@@ -162,6 +164,12 @@ export default function NewProductPage() {
             placeholder="25g protein per serving&#10;Low in fat and carbs&#10;Digestive enzymes added"
           />
         </div>
+      </div>
+
+      {/* Images */}
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="font-bold text-gray-900">Product Images</h2>
+        <ImageUploader images={images} onChange={setImages} />
       </div>
 
       {/* Variants */}

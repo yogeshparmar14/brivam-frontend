@@ -6,6 +6,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { Category } from '@/types';
 import api from '@/lib/api';
 import toast from 'react-hot-toast';
+import ImageUploader from '@/components/admin/ImageUploader';
 
 interface Variant {
   _id?: string;
@@ -30,6 +31,7 @@ export default function EditProductPage() {
     { flavor: '', weight: '', sku: '', price: '', mrp: '', stock: '' },
   ]);
   const [nutritionRows, setNutritionRows] = useState([{ label: '', perServing: '', per100g: '' }]);
+  const [images, setImages] = useState<string[]>([]);
 
   const { data: productData, isLoading: productLoading } = useQuery({
     queryKey: ['admin-product', id],
@@ -73,6 +75,9 @@ export default function EditProductPage() {
     if (productData.nutritionFacts?.length) {
       setNutritionRows(productData.nutritionFacts);
     }
+    if (productData.images?.length) {
+      setImages(productData.images);
+    }
   }, [productData]);
 
   const updateVariant = (i: number, k: keyof Variant, v: string) =>
@@ -97,6 +102,7 @@ export default function EditProductPage() {
           stock: Number(v.stock),
         })),
         nutritionFacts: nutritionRows.filter(r => r.label),
+        images,
       });
       toast.success('Product updated!');
       router.push('/admin/products');
@@ -159,6 +165,12 @@ export default function EditProductPage() {
           <textarea value={form.benefits} onChange={e => setForm(p => ({ ...p, benefits: e.target.value }))} rows={4}
             className="w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-brand-600 resize-none" />
         </div>
+      </div>
+
+      {/* Images */}
+      <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
+        <h2 className="font-bold text-gray-900">Product Images</h2>
+        <ImageUploader images={images} onChange={setImages} />
       </div>
 
       <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-4">
