@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCartStore } from '@/store/cartStore';
 import { useAuthStore } from '@/store/authStore';
@@ -23,13 +23,14 @@ const STATES = ['Andhra Pradesh','Arunachal Pradesh','Assam','Bihar','Chhattisga
 
 export default function CheckoutPage() {
   const { items, discount, couponCode, clearCart } = useCartStore();
-  const { user } = useAuthStore();
+  const { user, isLoading: authLoading } = useAuthStore();
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'razorpay' | 'cod'>('razorpay');
   const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState<Address>({
-    fullName: user?.name || '',
-    phone: user?.phone || '',
+    fullName: '',
+    phone: '',
     line1: '',
     line2: '',
     city: '',
@@ -37,17 +38,28 @@ export default function CheckoutPage() {
     pincode: '',
   });
 
+  useEffect(() => { setMounted(true); }, []);
+
+  useEffect(() => {
+    if (!mounted || authLoading) return;
+    if (!user) router.replace('/login?redirect=/checkout');
+  }, [mounted, authLoading, user, router]);
+
+  // Pre-fill address once user is available
+  useEffect(() => {
+    if (user) setAddress(prev => ({
+      ...prev,
+      fullName: prev.fullName || user.name || '',
+      phone: prev.phone || user.phone || '',
+    }));
+  }, [user]);
+
   const subtotal = items.reduce((s, i) => s + i.price * i.quantity, 0);
   const shippingCharge = subtotal - discount >= 999 ? 0 : 79;
   const total = subtotal - discount + shippingCharge;
 
-  if (!user) {
-    return (
-      <div className="container-site py-24 text-center">
-        <p className="text-lg mb-4 text-gray-600">Please login to continue checkout</p>
-        <Link href="/login" className="btn-primary">Login to Continue</Link>
-      </div>
-    );
+  if (!mounted || authLoading || !user) {
+    return <div className="container-site py-24 text-center text-gray-400">Loading…</div>;
   }
 
   if (items.length === 0) {
