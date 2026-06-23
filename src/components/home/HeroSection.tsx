@@ -1,62 +1,84 @@
 import Link from 'next/link';
-import { ArrowRight, ShieldCheck, Truck, Award } from 'lucide-react';
+import Image from 'next/image';
+import { ArrowRight } from 'lucide-react';
 
 export default function HeroSection() {
   return (
-    <section className="relative bg-brand-950 text-white overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(255,255,255,0.03) 40px, rgba(255,255,255,0.03) 80px)`,
-        }} />
-      </div>
+    <section className="bg-[#f5f0e8] overflow-hidden">
+      <div className="container-site">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center min-h-[520px] lg:min-h-[600px]">
 
-      <div className="container-site relative z-10 py-20 md:py-28 lg:py-36">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2 bg-brand-800/60 text-brand-300 text-xs font-semibold uppercase tracking-widest px-4 py-2 rounded-full mb-6">
-            <span className="w-1.5 h-1.5 bg-brand-400 rounded-full" />
-            India&apos;s Premium Protein Brand
-          </div>
+          {/* Left: Text */}
+          <div className="py-14 lg:py-20 order-2 lg:order-1">
+            <p className="text-gray-500 font-semibold mb-2 uppercase tracking-widest text-xs">
+              Introducing
+            </p>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black leading-none text-gray-900 uppercase mb-2">
+              Premium<br />Whey
+            </h1>
+            <h2 className="text-xl md:text-2xl font-bold text-brand-700 uppercase mb-8 tracking-wide">
+              High-Performance Protein.
+            </h2>
 
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
-            Fuel Your
-            <span className="block text-accent-400">Greatness</span>
-            With Clean Protein
-          </h1>
-
-          <p className="text-gray-300 text-lg md:text-xl mb-8 max-w-xl leading-relaxed">
-            Premium whey & plant protein supplements. Lab-tested, India-made, athlete-approved.
-            Every scoop fuels your next milestone.
-          </p>
-
-          <div className="flex flex-wrap gap-4 mb-12">
-            <Link href="/shop" className="btn-primary text-sm gap-2">
-              Shop Now
-              <ArrowRight size={16} />
-            </Link>
-            <Link href="/shop?featured=true" className="btn-outline border-gray-600 text-gray-300 hover:bg-white hover:text-brand-800 text-sm">
-              Best Sellers
-            </Link>
-          </div>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap gap-6 text-sm text-gray-400">
-            {[
-              { Icon: ShieldCheck, label: 'Lab Tested & Certified' },
-              { Icon: Truck, label: 'Free Shipping ₹999+' },
-              { Icon: Award, label: 'FSSAI Approved' },
-            ].map(({ Icon, label }) => (
-              <div key={label} className="flex items-center gap-2">
-                <Icon size={16} className="text-accent-400" />
-                <span>{label}</span>
+            <div className="flex flex-wrap items-center gap-5 mb-10">
+              <div className="text-center">
+                <p className="text-4xl font-black text-gray-900 leading-none">25g</p>
+                <p className="text-xs font-bold uppercase text-gray-500 tracking-widest mt-1">Protein</p>
               </div>
-            ))}
+              <div className="w-px h-12 bg-gray-300 hidden sm:block" />
+              <div className="bg-brand-700 text-white px-5 py-3">
+                <p className="text-sm font-black uppercase tracking-widest">GUT FRIENDLY</p>
+                <p className="text-xs font-semibold text-brand-300 mt-1 uppercase tracking-wide">
+                  CLEAN · COMPLETE · REAL PROTEIN
+                </p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link href="/shop" className="btn-primary gap-2">
+                SHOP NOW
+                <ArrowRight size={16} />
+              </Link>
+              <Link href="/shop?featured=true" className="btn-outline">
+                BEST SELLERS
+              </Link>
+            </div>
           </div>
+
+          {/* Right: Product Visual */}
+          <div className="relative order-1 lg:order-2 flex items-center justify-center lg:justify-end pt-12 lg:pt-0">
+            <div className="relative">
+              {/* Outer decorative ring */}
+              <div className="w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 rounded-full bg-[#ede5d5] flex items-center justify-center">
+                {/* Inner circle */}
+                <div className="w-48 h-48 md:w-60 md:h-60 lg:w-72 lg:h-72 rounded-full bg-[#e4d9c6] flex items-center justify-center p-8">
+                  <Image
+                    src="/ojam.png"
+                    alt="OJAM Premium Protein"
+                    width={400}
+                    height={160}
+                    className="w-full h-auto object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+              {/* Floating stat badges */}
+              <div className="absolute -top-2 -right-4 bg-white shadow-md px-3 py-2 rounded text-center">
+                <p className="text-xs font-black text-brand-700 uppercase">FSSAI</p>
+                <p className="text-xs text-gray-500">Certified</p>
+              </div>
+              <div className="absolute -bottom-2 -left-4 bg-white shadow-md px-3 py-2 rounded text-center">
+                <p className="text-xs font-black text-accent-600 uppercase">Lab</p>
+                <p className="text-xs text-gray-500">Tested</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
       {/* Stats strip */}
-      <div className="border-t border-brand-900 bg-brand-900/50">
+      <div className="border-t border-[#e0d5c2]">
         <div className="container-site py-5">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
             {[
@@ -66,8 +88,8 @@ export default function HeroSection() {
               { value: '4.8★', label: 'Average Rating' },
             ].map(({ value, label }) => (
               <div key={label} className="py-2">
-                <p className="text-accent-300 text-xl md:text-2xl font-bold">{value}</p>
-                <p className="text-gray-500 text-xs mt-0.5">{label}</p>
+                <p className="text-brand-700 text-xl md:text-2xl font-black">{value}</p>
+                <p className="text-gray-500 text-xs mt-1 uppercase tracking-widest">{label}</p>
               </div>
             ))}
           </div>

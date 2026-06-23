@@ -60,6 +60,11 @@ body {
   }
 }
 
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-33.333%); }
+}
+
 @layer utilities {
   .container-site {
     width: 100%;

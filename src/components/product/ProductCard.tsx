@@ -36,7 +36,8 @@ export default function ProductCard({ product }: Props) {
 
   return (
     <Link href={`/product/${product.slug}`} className="group block">
-      <div className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-md transition-shadow duration-300">
+      <div className="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-300 flex flex-col">
+
         {/* Image */}
         <div className="relative aspect-square overflow-hidden bg-gray-50">
           <Image
@@ -47,34 +48,24 @@ export default function ProductCard({ product }: Props) {
             sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           />
           {disc > 0 && (
-            <span className="absolute top-2 left-2 bg-brand-700 text-white text-xs font-bold px-2 py-0.5 rounded">
+            <span className="absolute top-2 left-2 bg-brand-700 text-white text-xs font-bold px-2 py-0.5 rounded-sm">
               -{disc}%
             </span>
           )}
+          {product.isFeatured && (
+            <span className="absolute top-2 right-2 bg-accent-500 text-white text-[10px] font-black px-2 py-0.5 uppercase tracking-wide rounded-sm">
+              Bestseller
+            </span>
+          )}
           {defaultVariant?.stock === 0 && (
-            <div className="absolute inset-0 bg-white/70 flex items-center justify-center">
-              <span className="text-sm font-semibold text-gray-500">Out of Stock</span>
+            <div className="absolute inset-0 bg-white/75 flex items-center justify-center">
+              <span className="text-sm font-bold text-gray-500 uppercase tracking-wide">Out of Stock</span>
             </div>
           )}
-          <button
-            onClick={handleAddToCart}
-            disabled={!defaultVariant || defaultVariant.stock === 0}
-            className="absolute bottom-0 left-0 right-0 bg-brand-700 text-white text-xs font-semibold py-2.5 flex items-center justify-center gap-1.5 translate-y-full group-hover:translate-y-0 transition-transform duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <ShoppingCart size={14} />
-            Add to Cart
-          </button>
         </div>
 
         {/* Info */}
-        <div className="p-3">
-          <p className="text-xs text-brand-700 font-medium uppercase tracking-wider mb-1">
-            {typeof product.category === 'object' ? product.category.name : product.brand}
-          </p>
-          <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-2 leading-snug">
-            {product.name}
-          </h3>
-
+        <div className="p-3 flex flex-col flex-1">
           {/* Rating */}
           {product.reviewCount > 0 && (
             <div className="flex items-center gap-1 mb-2">
@@ -87,20 +78,49 @@ export default function ProductCard({ product }: Props) {
                   />
                 ))}
               </div>
-              <span className="text-xs text-gray-500">({product.reviewCount})</span>
+              <span className="text-xs text-gray-500">
+                {product.averageRating.toFixed(1)} | {product.reviewCount} Reviews
+              </span>
             </div>
           )}
 
+          <h3 className="text-sm font-semibold text-gray-800 line-clamp-2 mb-2 leading-snug flex-1">
+            {product.name}
+          </h3>
+
           {/* Price */}
           {defaultVariant && (
-            <div className="flex items-baseline gap-2">
-              <span className="text-base font-bold text-gray-900">{formatPrice(defaultVariant.price)}</span>
-              {defaultVariant.mrp > defaultVariant.price && (
-                <span className="text-xs text-gray-400 line-through">{formatPrice(defaultVariant.mrp)}</span>
-              )}
+            <div className="mb-2">
+              <div className="flex items-baseline gap-2 flex-wrap">
+                <span className="text-base font-black text-gray-900">
+                  {formatPrice(defaultVariant.price)}/-
+                </span>
+                {defaultVariant.mrp > defaultVariant.price && (
+                  <>
+                    <span className="text-xs text-gray-400 line-through">
+                      {formatPrice(defaultVariant.mrp)}
+                    </span>
+                    <span className="text-xs font-bold text-accent-600">-{disc}% OFF</span>
+                  </>
+                )}
+              </div>
+              <div className="mt-1.5 bg-accent-50 border border-accent-200 text-accent-700 text-[10px] font-black py-1 px-2 text-center tracking-widest uppercase">
+                FREE DELIVERY ON ₹999+
+              </div>
             </div>
           )}
+
+          {/* Add to Cart button */}
+          <button
+            onClick={handleAddToCart}
+            disabled={!defaultVariant || defaultVariant.stock === 0}
+            className="w-full bg-brand-700 hover:bg-brand-800 text-white text-xs font-black py-2.5 flex items-center justify-center gap-1.5 tracking-widest uppercase transition-colors disabled:opacity-50 disabled:cursor-not-allowed mt-1"
+          >
+            <ShoppingCart size={13} />
+            ADD TO CART
+          </button>
         </div>
+
       </div>
     </Link>
   );

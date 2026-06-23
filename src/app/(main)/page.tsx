@@ -1,6 +1,7 @@
 import HeroSection from '@/components/home/HeroSection';
 import CategorySection from '@/components/home/CategorySection';
 import FeaturedProducts from '@/components/home/FeaturedProducts';
+import FAQSection from '@/components/home/FAQSection';
 import BenefitsSection from '@/components/home/BenefitsSection';
 import TestimonialsSection from '@/components/home/TestimonialsSection';
 import WhyOjam from '@/components/home/WhyOjam';
@@ -125,10 +126,6 @@ const siteNavigationJsonLd = {
   name: 'OJAM Site Navigation',
   itemListElement: [
     {
-      '@type': 'SiteLinksSearchBox',
-      target: `${siteUrl}/shop?search={search_term_string}`,
-    },
-    {
       '@type': 'ListItem',
       position: 1,
       name: 'Whey Protein',
@@ -198,9 +195,10 @@ export default function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationJsonLd) }}
       />
       <HeroSection />
-      <CategorySection />
       <FeaturedProducts />
+      <CategorySection />
       <WhyOjam />
+      <FAQSection />
       <TestimonialsSection />
       <BenefitsSection />
     </>
