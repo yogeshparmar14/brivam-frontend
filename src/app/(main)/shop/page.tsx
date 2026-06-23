@@ -20,7 +20,7 @@ async function fetchInitialProducts(params: Record<string, string | undefined>) 
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api'}/products?${query}`,
-      { next: { revalidate: 60 } },
+      { cache: 'no-store' },
     );
     if (!res.ok) return null;
     return res.json() as Promise<{ products: Product[]; pagination: PaginationMeta }>;
