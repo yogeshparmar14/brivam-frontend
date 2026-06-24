@@ -32,6 +32,7 @@ const organizationJsonLd = {
   email: 'hello@ojam.in',
   address: {
     '@type': 'PostalAddress',
+    streetAddress: 'Rudra Colony, Near Hanuman Mandir, Tusham Bypass',
     addressLocality: 'Bhiwani',
     addressRegion: 'Haryana',
     postalCode: '127021',
@@ -39,6 +40,7 @@ const organizationJsonLd = {
   },
   contactPoint: {
     '@type': 'ContactPoint',
+    telephone: '+91-8684901612',
     email: 'hello@ojam.in',
     contactType: 'customer service',
     availableLanguage: ['English', 'Hindi'],

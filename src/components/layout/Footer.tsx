@@ -32,12 +32,12 @@ export default function Footer() {
             <h4 className="text-white font-semibold mb-4 uppercase text-sm tracking-wider">Products</h4>
             <ul className="space-y-2 text-sm">
               {[
-                ['Whey Protein', '/shop?category=whey-protein'],
-                ['Plant Protein', '/shop?category=plant-protein'],
-                ['Mass Gainer', '/shop?category=mass-gainer'],
-                ['Creatine', '/shop?category=creatine'],
-                ['Pre-Workout', '/shop?category=pre-workout'],
-                ['Vitamins & Minerals', '/shop?category=vitamins'],
+                ['Whey Protein', '/category/whey-protein'],
+                ['Plant Protein', '/category/plant-protein'],
+                ['Mass Gainer', '/category/mass-gainer'],
+                ['Creatine', '/category/creatine'],
+                ['Pre-Workout', '/category/pre-workout'],
+                ['Vitamins & Minerals', '/category/vitamins'],
               ].map(([label, href]) => (
                 <li key={href}>
                   <Link href={href} className="hover:text-white transition-colors">{label}</Link>
@@ -71,11 +71,11 @@ export default function Footer() {
             <ul className="space-y-3 text-sm">
               <li className="flex items-start gap-2.5">
                 <MapPin size={15} className="mt-0.5 shrink-0 text-brand-400" />
-                <span>Ojam Nutrition, Bhiwani, Haryana 127027</span>
+                <span>Rudra Colony, Near Hanuman Mandir, Tusham Bypass, Bhiwani, Haryana 127021</span>
               </li>
               <li className="flex items-center gap-2.5">
                 <Phone size={15} className="shrink-0 text-brand-400" />
-                <a href="tel:+917988707297" className="hover:text-white transition-colors">+91 79887 07297</a>
+                <a href="tel:+918684901612" className="hover:text-white transition-colors">+91 86849 01612</a>
               </li>
               <li className="flex items-center gap-2.5">
                 <Mail size={15} className="shrink-0 text-brand-400" />
